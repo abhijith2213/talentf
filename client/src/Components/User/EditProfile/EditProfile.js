@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {useDispatch, useSelector } from "react-redux"
 import profile from "../../../assets/images/download.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';  //Toast
 import 'react-toastify/dist/ReactToastify.css';  //Toast Css
@@ -19,7 +19,7 @@ function EditProfile() {
   const handleError = useErrorHandler()
     const dispatch = useDispatch();
     const userData = useSelector(state =>state.user)
-
+    const navigate = useNavigate()
     const [Select, setSelect ]= useState(true)
 
     const [showModal,setShowModal] = useState(false)

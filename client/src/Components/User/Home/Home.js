@@ -12,7 +12,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 /* ------------------------------ ICONS IMPORT ------------------------------ */
 
 import { AiOutlineCloseCircle } from "react-icons/ai"
-import { ErrorBoundary } from "react-error-boundary"
+import { ErrorBoundary, useErrorHandler } from "react-error-boundary"
 import ErrorFallback from "../../ErrorBoundary/ErrorBoundary"
 
 const Post = React.lazy(() => import("../Posts/Post"))
@@ -23,7 +23,7 @@ function Home() {
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
    const navigate = useNavigate()
    const userData = useSelector((state) => state.user)
-
+   const handleError = useErrorHandler()
    // STATES 
 
    const [effect, setEffect] = useState(false)
@@ -50,6 +50,8 @@ function Home() {
                localStorage.removeItem('userToken')
                localStorage.removeItem('user')
                navigate("/signin")
+            }else{
+               handleError(error)
             }
          }
       }

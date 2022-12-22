@@ -38,6 +38,8 @@ const UserProfilePage = lazy(() => import("./Pages/User/UserProfile/UserProfileP
 const EditProfilePage = lazy(() => import("./Pages/User/EditProfilePage/EditProfilePage"))
 const NotificationPage = lazy(() => import("./Pages/User/NotificationPage/NotificationPage"))
 const JobsPage = lazy(() => import("./Pages/User/JobsPage/JobsPage"))
+const ForgotPassword = lazy(() => import("./Components/User/ForgotPassword/ForgotPassword"))
+const ResetPassword = lazy(() => import("./Components/User/ForgotPassword/ResetPassword"))
 
 function App() {
    const isActive = true
