@@ -13,12 +13,13 @@ import { FaRegPaperPlane } from "react-icons/fa"
 import { reportJobPost, sendConnect } from "../../../Apis/JobRequests"
 import { newUserChat } from "../../../Apis/chatRequests"
 import { socket } from "../../../Context/socketContext"
+import { useErrorHandler } from "react-error-boundary"
 
 
 
 function Freelancer({ job, setEffect }) {
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+   const handleError = useErrorHandler()
 
    const navigate = useNavigate()
 
@@ -29,11 +30,9 @@ function Freelancer({ job, setEffect }) {
    const handleConnect = async () => {
       try {
          const { data } = await sendConnect(userId, job._id)
-         console.log(data)
          setEffect(Date.now())
 
          if(data){
-            console.log('i worked');
             socket.emit('send-notification',{
                senderId:userId,
                recieverId:job.userId._id,
@@ -46,8 +45,9 @@ function Freelancer({ job, setEffect }) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
-         console.log(error)
       }
    }
 
@@ -57,11 +57,9 @@ function Freelancer({ job, setEffect }) {
    const [showModal, setShowModal] = useState(false)
 
    const handleBlock = async (e) => {
-      console.log(job._id, "llmmnn")
       try {
          const { data } = await reportJobPost(reason, job._id, userId)
          setReason("")
-         console.log(data, "block response")
          setEffect(Date.now())
          toast.warn(data.message)
          setShowModal(false)
@@ -70,8 +68,9 @@ function Freelancer({ job, setEffect }) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
-         console.log(error)
       }
    }
 
@@ -83,15 +82,15 @@ function Freelancer({ job, setEffect }) {
       }
       try {
          const { data } = await newUserChat(users)
-         console.log(data, "chat ress")
          navigate("/message")
       } catch (error) {
          if (!error?.response?.data?.auth && error?.response?.status === 403) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
-         console.log(error)
       }
    }
 

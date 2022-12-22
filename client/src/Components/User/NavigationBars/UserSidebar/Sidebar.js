@@ -13,7 +13,7 @@ import log from '../../../../assets/images/talentF-c.png'
 /* --------------------------------- ASSETS END--------------------------------- */
 
 import React,{useEffect,useContext,useState} from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import {confirmAlert} from 'react-confirm-alert';
 import { useDispatch ,useSelector} from "react-redux";
 import { remove } from "../../../../Redux/User/userSlice";
@@ -33,7 +33,6 @@ function Sidebar() {
   const fetchnotificationCount=async()=>{
     try {
       const {data} = await fetchNoCounts(userData._id)
-      console.log(data,'kkmmbbffrr444');
       setNotifications(data)
     } catch (error) {
       console.log(error);
@@ -59,7 +58,6 @@ function Sidebar() {
   /* ------------------------------ HANDLE LOGOUT ----------------------------- */
 
   const handleLogout = () => {
-    console.log('in logout');
     confirmAlert({
       title: 'Logout!',
       message: 'Are you sure to Logout .',
@@ -85,10 +83,8 @@ function Sidebar() {
   /* ------------------------ HANDLE NOTIFICATION COUNT ----------------------- */
 
   const handleNotiView =async()=>{
-      console.log('hi action');
       try {
         const {data} = await handleNotCount(userData._id)
-        console.log(data,'pppoooyyttrre');
       } catch (error) {
         console.log(error);
       }
@@ -100,10 +96,9 @@ function Sidebar() {
         { name: "Home", link: "/home", icon: BiHome },
         { name: "messages", link: "/message", icon: FiMessageSquare },
         { name: "Notifications", link: "/notifications", icon: MdNotificationsNone ,notifications:true ,action:handleNotiView},
-        { name: "Create", link: "/home", icon: BiMessageSquareAdd },
         { name: "Works", link: "/works", icon: MdWorkOutline },
         { name: "My Profile", link: "/myprofile", icon: CgProfile },   
-        { name: "Logout", link: "/home", icon: HiOutlineLogout},
+        { name: "Logout", link: "/", icon: HiOutlineLogout},
       ];
 
 
@@ -118,7 +113,7 @@ function Sidebar() {
         </div>
         <div className=" flex flex-col gap-6 justify-start relative md:items-center lg:items-start">
           {menus?.map((menu, i) => (
-            <Link
+            <NavLink
               to={menu?.link}
               key={i}
               onClick={menu.action}
@@ -134,7 +129,7 @@ function Sidebar() {
                 {menu?.name}
               </h2>
              {menu.notifications && notifications !== 0 ?  <p className="px-1 text-white bg-red-500 rounded-full">{notifications}</p> :null}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>

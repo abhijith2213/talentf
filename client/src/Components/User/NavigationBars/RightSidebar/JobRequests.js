@@ -30,13 +30,11 @@ const userId = userData?._id
 
    /* -------------------------- FETCH MY JOB REQUESTS ------------------------- */
    const [requests,setRequests] = useState([])
-   console.log(requests,'req');
    useEffect(()=>{
 
       try {
          const fetchRequests=async()=>{
           const {data} = await fetchJobRequests(userId) 
-          console.log(data,'reqjobdata');
           setRequests(data)
          }
          fetchRequests()
@@ -53,7 +51,6 @@ const userId = userData?._id
       setClickedWork(postId)  
       try {
          const {data} = await getRequestUsers(postId)
-         console.log(data,'xxxxxccccccc');
          setUsers(data)
          setShowRequests(!showRequests)
        } catch (error) {
@@ -67,7 +64,6 @@ const userId = userData?._id
 
       try {
          const {data} = await assignWork(Id,clickedWork)
-         console.log(data);
          setEffect(!effect)
          setShowRequests(!showRequests)
          toast.success(data.message) 

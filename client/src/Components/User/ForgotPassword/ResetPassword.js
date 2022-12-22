@@ -14,18 +14,16 @@ function ResetPassword() {
     const [newCPass, setCNewPass] = useState('')
     const [error, setError] = useState('')
 
-    const email = useParams().email
-    const otp = useParams().otp
+    const {email,otp}  = useParams()
+   //  const  = useParams().otp
 
 
     const handleReset =async(e)=>{
         e.preventDefault()
-        console.log('reacheddddddd');
         if(newPass === newCPass){
             setError('')
             try {
                 const {data} = await updateNewPass(newPass,email,otp)
-                console.log(data);
                 toast.success(data.message)
             } catch (error) {
                 console.log(error);
@@ -85,7 +83,6 @@ function ResetPassword() {
                               onClick={handleReset}>
                               Reset Password
                            </button>
-
                      </div>
                      <hr className='mb-6 border-t' />
                   </form>

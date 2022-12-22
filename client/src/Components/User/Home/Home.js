@@ -46,8 +46,6 @@ function Home() {
                })
             )
          } catch (error) {
-            console.log(error.response,'errorclofhf')
-            console.log(error?.response?.data?.auth,'errorcloaauuuuthfhf')
             if (!error?.response?.data?.auth && error?.response?.status === 403) {
                localStorage.removeItem('userToken')
                localStorage.removeItem('user')
@@ -80,11 +78,9 @@ function Home() {
    //********** */ POST UPLOAD SUBMIT //******* */
 
    const handleSubmit = async (e) => {
-      console.log("reachedddd")
       e.preventDefault()
 
       let data
-      console.log(postImage, "ooimagee ")
       if (postImage) {
          data = new FormData()
          const fileName = postImage.name
@@ -101,7 +97,6 @@ function Home() {
          axios
             .post("/uploadPost", data)
             .then((res) => {
-               console.log(res, "its res post")
                setEffect(!effect)
                removeImage()
                setDescription("")
@@ -111,11 +106,12 @@ function Home() {
                toast.warn('provide a valid image')
             })
       } catch (error) {
-         console.log(error,'erorrrrconsolleeeeeeddddd');
          if (!error?.response?.data?.auth && error?.response?.status === 403) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
       }
    }

@@ -5,10 +5,7 @@ const User = require("../Models/userSchema");
 /* ------------------------------ ADD NEW WORK ------------------------------ */
 
 const PostAddWork = async (req,res)=>{
-    console.log(req.body,'fghjk');
-    console.log('reached works');
     const {data,userId} = req.body
-    console.log(data,userId,'lllllll');
     const datas = new Job({...data,userId:userId})
     try {
         await datas.save()
@@ -22,7 +19,6 @@ const PostAddWork = async (req,res)=>{
 /* ------------------------------ GET OWN WORKS ----------------------------- */
 
 const getMyPosts = async (req,res)=>{
-    console.log(req.params.id);
     try {
        const posts = await Job.find({userId:req.params.id,work:'open'})
        res.status(200).json(posts)
@@ -45,7 +41,6 @@ const getAssignedPosts = async (req,res)=>{
 /* --------------------------- GET TIMELINE WORKS --------------------------- */
 
 const getAllPosts = async (req,res)=>{
-    console.log(req.params.id);
     let ab=[]
     try {
         const user = await User.findById(req.params.id)
@@ -56,7 +51,6 @@ const getAllPosts = async (req,res)=>{
         const result = posts?.filter((post)=>{
             return post.length != 0
         })
-        console.log(ab.concat(...result),'nnnpostsss');
         res.status(200).json(ab.concat(...result))
     } catch (error) {
        console.log(error);
@@ -78,8 +72,6 @@ try {
 /* ---------------------------- SEND JOB REQUESTS --------------------------- */
 
 const sendJobRequest = async (req,res)=>{
-    console.log(req.params.id);
-    console.log(req.body);
     const details ={
         user:req.body.userId,
         desc:'Send a Connect Request'
@@ -88,7 +80,6 @@ const sendJobRequest = async (req,res)=>{
         const job = await Job.findByIdAndUpdate(req.params.id,
             {$push:{requests:req.body.userId}})
             await NotificationModel.updateOne({userId:job.userId},{$push:{Notifications:details}})
-            console.log(job,'oo');
             res.status(200).json({message:'Request Send Successfully'})
 
     } catch (error) {
@@ -100,10 +91,8 @@ const sendJobRequest = async (req,res)=>{
 /* ----------------------------- FETCH REQUESTED WORKS ----------------------------- */
 
 const getRequests = async (req,res)=>{
-    console.log(req.params.id);
     try {
        const jobs = await Job.find({userId:req.params.id,requests:{$exists:true,$ne:[]}})
-       console.log(jobs,'mko');
        res.status(200).json(jobs)
     } catch (error) {
         console.log(error);
@@ -114,7 +103,6 @@ const getRequests = async (req,res)=>{
 /* ------------------------ FETCH REQUESTED USERDATA ----------------------- */
 
 const getRequestUsers =async(req,res)=>{
-    console.log(req.params.id);
     try {
         const data = await Job.findById(req.params.id).populate('requests','userName fullName profilePic')
         res.status(200).json(data.requests)
@@ -128,13 +116,10 @@ const getRequestUsers =async(req,res)=>{
 
 const assignWork =async (req,res)=>{
     const {userId} = req.body;
-    console.log(userId,'lll');
-    console.log(req.params.id);
     
     try {
         const job =  await Job.findByIdAndUpdate(req.params.id,
             {$set:{work:userId,requests:[]}})
-            console.log(job,'asign work job hehe');
 
            const details ={
            user:job.userId,
@@ -157,12 +142,9 @@ const reportJob = async (req,res)=>{
     const workId = req.params.id;
     const {userId,reason} = req.body
     const data = new JobReport({workId,userId,reason})
-    console.log(data,'save dataaaa');
-
     try {
         let job = await Job.findById(workId)
         if(!job?.reports?.includes(userId)){
-         console.log('in');
         await job.updateOne({$push:{reports:userId}}) 
         await data.save()
         }
@@ -176,10 +158,8 @@ const reportJob = async (req,res)=>{
 /* --------------------------- FETCH REPORTED JOBS -------------------------- */
 
 const fetchReportedJobs = async (req,res)=>{
-    console.log('heeerererererrere');
     try {
         const posts =await Job.find({reports:{$exists:true,$ne:[]}}).populate('userId','userName')
-        console.log(posts,'allposts');
         res.status(200).json(posts) 
     } catch (error) {
         res.status(500).json(error)
@@ -189,11 +169,9 @@ const fetchReportedJobs = async (req,res)=>{
 /* ------------------------ FETCH REPORTED JOB DATAS ------------------------ */
 
 const ReportedJobDetails = async (req,res)=>{
-    console.log(req.params.id);
     try {
         const result = await JobReport.find({workId:req.params.id}).populate('userId','userName')
         res.status(200).json(result)
-        console.log(result,'ijnnnnnnb');
      } catch (error) {
          res.status(500).json(error)
      }
@@ -220,7 +198,6 @@ const assignedWorksToMe = async(req,res)=>{
 
     try {
         const work = await Job.find({work:req.params.id}).populate('userId', 'userName fullName profilePic')
-        console.log(work,'pllllwork');
         res.status(200).json(work)
     } catch (error) {
         res.status(500).json(error)

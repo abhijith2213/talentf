@@ -8,11 +8,12 @@ import "react-toastify/dist/ReactToastify.css" //Toast Css
 // Assets
 import { BsThreeDotsVertical } from "react-icons/bs"
 import { deleteJob } from "../../../Apis/JobRequests"
+import { useErrorHandler } from "react-error-boundary"
 
 function Client({ job, setEffect }) {
 
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+   const handleError = useErrorHandler()
    const navigate = useNavigate()
    const userData = useSelector((state) => state.user)
    const userId = userData._id
@@ -25,7 +26,6 @@ function Client({ job, setEffect }) {
    const handleDelete = async () => {
       try {
          const { data } = await deleteJob(job._id)
-         console.log(data)
          toast.warn(data.message)
          setEffect(Date.now())
       } catch (error) {
@@ -33,8 +33,9 @@ function Client({ job, setEffect }) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
-         console.log(error)
       }
    }
 

@@ -37,7 +37,6 @@ function Jobs() {
 
       try {
          const { data } = await addNewJob(newJob, userId)
-         console.log(data)
          if (data) {
             setShowModal(false)
             setEffect(Date.now())
@@ -50,7 +49,6 @@ function Jobs() {
             navigate("/signin")
          }
          handleError(error)
-         console.log(error)
       }
    }
 
@@ -64,7 +62,6 @@ function Jobs() {
             try {
                const findMyJobs = async () => {
                   const { data } = await findMyPosts(userId)
-                  console.log(data, "my postss work")
                   setMyJobs(data)
                }
    
@@ -76,14 +73,11 @@ function Jobs() {
                   navigate("/signin")
                }
                handleError(error)
-               console.log(error)
             }
          }else{
-            console.log('in else');
             try {
                const findMyJobs = async () => {
                   const { data } = await findAssignedPosts(userId)
-                  console.log(data, "my postss work")
                   setMyJobs(data)
                }
    
@@ -95,7 +89,6 @@ function Jobs() {
                   navigate("/signin")
                }
                handleError(error)
-               console.log(error)
             }
          }
       } else {
@@ -103,7 +96,6 @@ function Jobs() {
          try {
             const findAllJobs = async () => {
                const { data } = await findAllPosts(userId)
-               console.log(data, "zzzzzzzzzzzzz")
                setAllJobs(data)
             }
             findAllJobs()
@@ -113,7 +105,6 @@ function Jobs() {
                localStorage.removeItem('user')
                navigate("/signin")
             }
-            console.log(error)
             handleError(error)
 
          }
@@ -121,7 +112,6 @@ function Jobs() {
          try {
             const findMyJobs = async () => {
                const { data } = await findWorksToMe(userId)
-               console.log(data, "my postss work")
                setAllJobs(data)
             }
             findMyJobs()
@@ -132,7 +122,6 @@ function Jobs() {
                navigate("/signin")
             }
             handleError(error)
-            console.log(error)
          }
       }
       }

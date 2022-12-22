@@ -1,5 +1,5 @@
-import axios from '../Axios/axios'
 import userInstance from '../Axios/userAuth'
+import adminInstance from '../Axios/adminAuth'
 
 export const addNewJob =(data,userId) =>userInstance.post(`/works/newWork`,{data:data,userId:userId})
 
@@ -21,11 +21,11 @@ export const assignWork = (userId,workId) => userInstance.put(`/works/assignWork
 
 export const findWorksToMe = (userId) => userInstance.get(`/works/assigneWorks/me/${userId}`)
 
-export const reportJobPost = (reason,postId,userId) => axios.put(`/works/reportWork/${postId}`,{reason:reason,userId:userId})
+export const reportJobPost = (reason,postId,userId) => adminInstance.put(`/works/reportWork/${postId}`,{reason:reason,userId:userId})
 
-export const fetchReportedJobss = ()=> axios.get(`/admin/reportedWorks`)
+export const fetchReportedJobss = ()=> adminInstance.get(`/admin/reportedWorks`)
 
 
-export const fetchReportedJobDetails = (jobId)=> axios.get(`/admin/reportedJobs/details/${jobId}`)
+export const fetchReportedJobDetails = (jobId)=> adminInstance.get(`/admin/reportedJobs/details/${jobId}`)
 
-export const blockUserJob = (jobId) => axios.put(`/admin/jobs/block/${jobId}`)
+export const blockUserJob = (jobId) => adminInstance.put(`/admin/jobs/block/${jobId}`)

@@ -14,7 +14,6 @@ function AdminSideBar() {
 
   const handleLogout = (e) => {
     e.preventDefault()
-    console.log('in logout');
     confirmAlert({
       title: 'Logout!',
       message: 'Are you sure to Logout .',

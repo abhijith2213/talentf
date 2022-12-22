@@ -90,22 +90,24 @@ function ForgotPassword() {
          {/* SPINNER  */}
          {loader ? ( <div className='absolute w-full h-full backdrop-blur-sm  flex items-center justify-center'>
                <LoadingOverlay active={loader} spinner={<HashLoader color={"#146CF0"} />} text='Please Wait...!'>
+
                </LoadingOverlay>
-                  <ToastContainer
-                     position='top-center'
-                     autoClose={3000}
-                     hideProgressBar
-                     newestOnTop
-                     closeOnClick
-                     rtl={false}
-                     pauseOnFocusLoss={false}
-                     draggable
-                     theme='dark'/>
             </div>
          ) : (
             ""
          )}
          </div>
+         <ToastContainer
+                  position="top-center"
+                  autoClose={3000}
+                  hideProgressBar
+                  newestOnTop
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss={false}
+                  draggable
+                  pauseOnHover
+                  theme="dark" />
       </div>
    )
 }

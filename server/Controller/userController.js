@@ -29,7 +29,6 @@ const postCreateAccount = async (req, res) => {
             })
       // }
    } catch (error) {
-    console.log(error,'signup error');
       res.status(503).json("Something went wrong")
    }
 }
@@ -40,24 +39,19 @@ const postCreateAccount = async (req, res) => {
 
 const sendUserOtp = async (req, res) => {
 
-console.log(req.body, "otp resultsssssssssssssssss")
 const {email,userName} =req.body
 
 
    try {    
       const usedData = await User.findOne({ $or: [{ email }, { userName }] })
       if (usedData) {
-         console.log('1');
          if (usedData.userName === userName) {
-            console.log('2');
             res.status(409).json({message:"userName not Available"})
          } else if (usedData.email === email){
-            console.log('3');
             res.status(409).json({message:"Email already Registered, Please Login"})
          }
       }else{
          otpGenerate(email,res).then((response)=>{
-            console.log(response,'i');
          })
       } 
    } catch (error) {
@@ -81,7 +75,6 @@ let transporter = nodemailer.createTransport({
 const otpGenerate =async(email,res,link)=>{
    try {
       const OTP = await Math.floor(100000 + Math.random() * 900000).toString()
-      console.log(OTP)
       const hashOtp = await bcrypt.hash(OTP,10)
       const user = await userVerification.findOne({user:email})
       if(!user){
@@ -102,8 +95,7 @@ const otpGenerate =async(email,res,link)=>{
                from: process.env.NODEMAILER, // sender address
                to: email, // list of receivers
                subject: "TalentF Password Reset Link", // Subject line
-               text: `Hello User Your link to reset your password is  http://localhost:3000/forgotPassword/${email}/${OTP} `, // plain text body
-               // html: `<p>Hello User Your link to reset your password is http://localhost:3000/forgotPassword/${email}/${OTP}</p>`, // html body
+               text: `Hello User Your link to reset your password is  https://talentf.tk/forgotPassword/${email}/${OTP} `, // plain text body
                })
             }else{
             // send mail with defined transport object
@@ -117,10 +109,8 @@ const otpGenerate =async(email,res,link)=>{
          }
 
              if(info.messageId){
-                console.log('in ifffffff');
                 res.status(200).json({status:true,message:'Otp send to mail'})
              }else{
-                console.log('in elllseeee');
                 res.status(402).json('something went wrong')
              }
 
@@ -134,9 +124,7 @@ const otpGenerate =async(email,res,link)=>{
 /* ------------------------------- RESEND OTP ------------------------------- */
 
 const resendOtp =(req,res)=>{
-   console.log(req.body,'jjkkkbodtyyyy');
    otpGenerate(req.body.email,res).then((response)=>{
-      console.log(response,'its me ');
    })
 }
 
@@ -144,12 +132,9 @@ const resendOtp =(req,res)=>{
 /* ---------------------------- OTP VERIFICATION ---------------------------- */
 
 const verifyOtp = async (req, res) => {
-    console.log(req.body,'verify body');
    try {
-    let validUser = await userVerification.findOne({user:req?.body?.email})
-    console.log(validUser,'valid user');
+    let validUser = await userVerification.findOne({user:req.body.email})
     let validOtp = await bcrypt.compare(req.body.otp,validUser.otp)
-    console.log(validOtp,'otp validd');
 
     if(validOtp){
         res.status(200).json({message:'otp verified',auth:true})
@@ -199,7 +184,6 @@ const getSuggestions = async (req, res) => {
    try {
       User.find({followers:{$nin:req.params.id},_id:{$ne:req.params.id}}).limit(5)  
          .then((response) => {
-            console.log(response,'user suggest');
             res.status(200).json(response)
          })
          .catch((err) => {
@@ -238,8 +222,6 @@ const putFollowUser = async (req, res) => {
 /* ------------------------------ UNFOLLOW USER ----------------------------- */
 
 const putUnfollowUser = async (req, res) => {
-   console.log(req.body, "pp")
-   console.log(req.params.id, "eeepp")
    const details ={
       user:req.params.id,
       desc:'started following you',
@@ -263,14 +245,11 @@ const putUnfollowUser = async (req, res) => {
 /* ------------------------- GET USERDETAILS OF POST ------------------------ */
 
 const getPostUser = async (req, res) => {
-   console.log("user detailsss")
    const userId = req.query.userId
    try {
       const user = await User.findById(userId)
-      console.log(user, "post user")
 
       const { password, created_date, status, ...others } = user._doc
-      console.log(others, "pothers")
       res.status(200).json(others)
    } catch (error) {
       res.status(500).json("Something went wrong!")
@@ -282,12 +261,10 @@ const getPostUser = async (req, res) => {
 const getUserDetails = async (req, res) => {
    const { userId } = req.params
 
-   console.log(userId, "vvvvvvvvv")
    try {
       const user = await User.findById(userId)
       const { phone, password, ...details } = user._doc
       res.status(200).json(details)
-      console.log(details, "llkkoopp")
    } catch (error) {
       res.status(500).json(error)
    }
@@ -296,15 +273,11 @@ const getUserDetails = async (req, res) => {
 /* --------------------- GET USER DETAILS WITH USERNAME --------------------- */
 
 const getUserData = async (req, res) => {
-   console.log(`i'm here bro`)
    const username = req.query.username
-   console.log(username, "unamed")
    try {
       const user = await User.findOne({ userName: username })
-      console.log(user, "lllvzxx")
       const { phone, password, ...details } = user._doc
       res.status(200).json(details)
-      console.log(details, "EEEEkkoopp")
    } catch (error) {
       console.log("error heree ")
       res.status(500).json(error)
@@ -314,7 +287,6 @@ const getUserData = async (req, res) => {
 /* ---------------------------- GET MY FOLLOWERS ---------------------------- */
 
 const getMyFollowers = async (req, res) => {
-   console.log(req.params.id, "my followers")
 
    try {
       const user = await User.findById(req.params.id)
@@ -324,10 +296,8 @@ const getMyFollowers = async (req, res) => {
                return User.findOne({ _id: id }, { fullName: 1, userName: 1, profilePic: 1, accountType: 1 })
             })
          )
-         console.log(followers, "mmyyyyyyvv")
          res.status(200).json(followers)
       } else {
-         console.log("no user")
          res.status(402).json("Please try again")
       }
    } catch (error) {
@@ -339,7 +309,6 @@ const getMyFollowers = async (req, res) => {
 /* ---------------------------- GET MY FOLLOWING ---------------------------- */
 
 const getMyFollowings = async (req, res) => {
-   console.log(req.params.id, "my following")
 
    try {
       const user = await User.findById(req.params.id)
@@ -349,10 +318,8 @@ const getMyFollowings = async (req, res) => {
                return User.findOne({ _id: id }, { fullName: 1, userName: 1, profilePic: 1, accountType: 1 })
             })
          )
-         console.log(following, "mmyyyyyyinggg")
          res.status(200).json(following)
       } else {
-         console.log("no user")
          res.status(402).json("Please try again")
       }
    } catch (error) {
@@ -364,12 +331,9 @@ const getMyFollowings = async (req, res) => {
 /* --------------------------- UPDATE USER PROFILE -------------------------- */
 
 const updateUserProfile = async (req, res) => {
-   console.log(req.body, "opbody")
-   console.log(req.params.id, "plmkio")
    const { fullName, userName, about, _id } = req.body
    try {
       const user = await User.find({ userName: userName })
-      console.log(user, "llmmnnbbvv")
       if (user.length === 0 || user._id === _id) {
          await User.findByIdAndUpdate(req.params.id, { $set: { fullName, userName, about } })
          res.status(200).json({ message: "profile updated successfully" })
@@ -385,8 +349,6 @@ const updateUserProfile = async (req, res) => {
 const updateProfilePic = async (req, res) => {
    let image = req?.file?.filename
    const { userId } = req.body
-   console.log(image)
-   console.log(req.body, "proimg")
    try {
       await User.findByIdAndUpdate(userId, { $set: { profilePic: image } })
       res.status(200).json({ image: image, message: "profile picture updated" })
@@ -398,7 +360,6 @@ const updateProfilePic = async (req, res) => {
 /* ----------------------------- SEARCH FOR USER ---------------------------- */
 
 const searchUsers = async (req, res) => {
-   console.log(req.params.id, "uuiiid")
    const data = req.params.id
    try {
       const users = await User.find(
@@ -415,10 +376,8 @@ const searchUsers = async (req, res) => {
 /* ---------------------------- UPDATE COVER PIC ---------------------------- */
 
 const updateCoverPic = async (req, res) => {
-   console.log(req.body)
    let image = req?.file?.filename
    const { userId } = req.body
-   console.log(userId, image)
    try {
       await User.findByIdAndUpdate(userId, { $set: { coverPic: image } })
       res.status(200).json({ message: "profile picture updated" })
@@ -430,15 +389,12 @@ const updateCoverPic = async (req, res) => {
 /* -------------------------- GET ALL NOTIFICATION -------------------------- */
 
 const getNotifications = async (req, res) => {
-   console.log("herreeee")
-   console.log(req.params.id)
    try {
       const notifications = await NotificationModel.findOne(
          { userId: req.params.id },
          { _id: 0, Notifications: 1 }
       ).sort({_id:-1}).populate("Notifications.user", "userName profilePic")
       const notification = notifications.Notifications.reverse()
-      console.log(notification, "kkk")
       res.status(200).json(notification)
    } catch (error) {
       console.log(error)
@@ -463,7 +419,6 @@ const manageNotificationCount = async (req,res)=>{
 /* ---------------------- GET UNREAD NOTIFICATION COUNT --------------------- */
 
 const getNotifCount =async(req,res)=>{
-   console.log(req.params.id,'sssssssssssssuuuuuuuuuuuuuuuuuiiiiiiiii');
    try {
       const result = await NotificationModel.findOne({userId:req.params.id})
       const unread =  result?.Notifications?.filter((data)=>{
@@ -471,7 +426,6 @@ const getNotifCount =async(req,res)=>{
             return data
          }
       })
-      console.log(unread.length,'counttttttt99999999900000000');
       res.status(200).json(unread?.length)
    } catch (error) {
       res.status(500).json(error)
@@ -484,12 +438,9 @@ const getNotifCount =async(req,res)=>{
 /* -------------------------- CHANGE USER PASSWORD -------------------------- */
 
 const changeUserPassword = async (req,res)=>{
-   console.log(req.params.id,'pass change id');
-   console.log(req.body,'kk');
    try {
     const user =  await User.findOne({_id:req.params.id})
     const valid = await bcrypt.compare(req.body.oldPass,user.password)
-    console.log(valid);
     if(valid){
       const hash = await bcrypt.hash(req.body.newPass,10)
       await user.updateOne({password:hash})
@@ -497,7 +448,6 @@ const changeUserPassword = async (req,res)=>{
     }else{
       res.status(401).json({message:'current password is incorrect!'})
     }
-    console.log(user);
    } catch (error) {
       console.log(error);
       res.status(500).json(error)
@@ -507,10 +457,8 @@ const changeUserPassword = async (req,res)=>{
 /* ----------------------------- FORGOT PASSWORD ---------------------------- */
 
 const forgotPassLinkSend =async (req,res)=>{
-   console.log(req.params.email,'emailk');
    const link = true;
    const user = await User.findOne({email:req.params.email})
-   console.log(user,'mmmvvcccsseerr');
    if(user){
       const data =await otpGenerate(req.params.email,res,link)
    }else{
@@ -536,7 +484,6 @@ const updateNewPassword =async(req,res)=>{
          }
        }
    } catch (error) {
-      console.log(error);
       res.status(500).json(error)
    }
 }

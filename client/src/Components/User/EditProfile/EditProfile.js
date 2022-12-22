@@ -11,11 +11,12 @@ import {HiOutlineEye, HiOutlineEyeOff} from 'react-icons/hi'
 
 import { changePassword, setProfilePicture, updateUserProfile } from "../../../Apis/userRequests";
 import { update, setProfilePic } from "../../../Redux/User/userSlice";
+import { useErrorHandler } from "react-error-boundary";
 
 function EditProfile() {
 
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+  const handleError = useErrorHandler()
     const dispatch = useDispatch();
     const userData = useSelector(state =>state.user)
 
@@ -42,15 +43,19 @@ function EditProfile() {
       e.preventDefault()
       try {
         const {data} = await updateUserProfile(userData._id,newProfile)
-        console.log(data);
         if(data){
           dispatch(update(newProfile))
           localStorage.setItem("user",JSON.stringify(newProfile))
           toast.success(data.message)
         }
       } catch (error) {
-        alert(error.message)
-        console.log(error);
+        if (!error?.response?.data?.auth && error?.response?.status === 403) {
+          localStorage.removeItem('userToken')
+          localStorage.removeItem('user')
+          navigate("/signin")
+       }else{
+          handleError(error)
+       }
       }
 
     }
@@ -75,11 +80,8 @@ function EditProfile() {
                 datas.append('file',profilePic)
                 datas.append('userId',userData._id)
                 try {
-                  console.log(datas,'kmnbvc');
                   const {data} = await setProfilePicture(datas)
-                  console.log(data,'myyyyyyttrreewqq');
                     if(data.message){
-                    console.log(data,'knvcxza');
                     localStorage.setItem("profilePic",JSON.stringify(data.image))
                     dispatch(setProfilePic({profilePic:data.image}))
                     toast.success(data.message)
@@ -87,7 +89,13 @@ function EditProfile() {
                  setShowModal(false)
                 }
                 } catch (error) {
-                  console.log(error);
+                  if (!error?.response?.data?.auth && error?.response?.status === 403) {
+                    localStorage.removeItem('userToken')
+                    localStorage.removeItem('user')
+                    navigate("/signin")
+                 }else{
+                    handleError(error)
+                 }
                 }
               }
       }
@@ -97,7 +105,6 @@ function EditProfile() {
       const initial = {oldPass:'',newPass:'',confirmNewPass:''}
       const [password,setPassword] = useState(initial)
       const [passError, setPassError] = useState('')
-      console.log(password,'kkkkk');
       
       const handlePassChange =(e)=>{
         const {name,value} = e.target
@@ -106,7 +113,6 @@ function EditProfile() {
       
       const handleSubmitPassword =async (e)=>{
         e.preventDefault()
-        console.log('reacgeddddddd pass change');
         if(password.newPass.length < 8 ||password.newPass.length > 12){
           setPassError('password must be 8-12 characters!')
         }else if(password.newPass !== password.confirmNewPass){
@@ -117,12 +123,17 @@ function EditProfile() {
             const {data} = await changePassword(userData._id,password)
             setPassword(initial)
             toast.success(data.message)
-            console.log(data,'pass change data');
           } catch (error) {
             if(error.response.status === 401){
               setPassError(error.response.data.message)
             }
-            console.log(error);
+            if (!error?.response?.data?.auth && error?.response?.status === 403) {
+              localStorage.removeItem('userToken')
+              localStorage.removeItem('user')
+              navigate("/signin")
+           }else{
+              handleError(error)
+           }
           }
         }
       }
@@ -131,7 +142,6 @@ function EditProfile() {
       const [inputType,setInputType] = useState('password')
       
       const handleInputType =(e)=>{
-        console.log('hiiiiiiii');
         if(inputType==="password")
         {
           setInputType("text")

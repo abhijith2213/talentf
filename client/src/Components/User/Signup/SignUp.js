@@ -13,9 +13,11 @@ import { resendOtpCall, sendOtp, validateOtp } from "../../../Apis/userRequests"
 
 import { ToastContainer, toast } from "react-toastify" //Toast
 import "react-toastify/dist/ReactToastify.css" //Toast Css
+import { useErrorHandler } from "react-error-boundary"
 
 function SignUp() {
    const navigate = useNavigate()
+   const handleError = useErrorHandler()
    const [formvalues, setFormValues] = useState()
 
    const {
@@ -38,27 +40,23 @@ function SignUp() {
    const [isActive,setIsActive] = useState(false)
 
    const onSubmit = async (formData) => {
-      console.log(formData, "forrrrmmmmdatataa")
       setFormValues(formData)
       setLoader(true)
       setIsActive(!isActive)
       try {
          const { data } = await sendOtp(formData)
-         console.log(data)
          setLoader(false)
          setIsActive(!isActive)
          if (data.status) {
             setOtpModal(true)
             toast.success(data.message)
             setTimeout(() => {
-               console.log("Otp send in")
                setResend(true)
             }, "60000")
          } else {
-            console.log("otp not send failure")
+            toast.warn('otp not send failure')
          }
       } catch (error) {
-         console.log(error, "send otp error")
          setFormError(error.response.data.message)
       }
    }
@@ -76,14 +74,12 @@ function SignUp() {
          setOtp("")
          try {
             const { data } = await validateOtp(details)
-            console.log(data, "uuuu")
             if (data.auth) {
                setOtpModal(false)
                try {
                   axios
                      .post("/create_account", formvalues)
                      .then((res) => {
-                        console.log(res)
                         navigate("/signin")
                      })
                      .catch((err) => {
@@ -98,7 +94,10 @@ function SignUp() {
          } catch (error) {
             if (error.response.status === 403) {
                toast.warn(error.response.data.message)
+            }else{
+               handleError(error)
             }
+            
          }
       }
    }
@@ -110,17 +109,16 @@ function SignUp() {
 
       try {
          const { data } = await resendOtpCall(formvalues.email)
-         console.log(data)
          if (data.status) {
             toast.success(data.message)
             setResend(false)
             setTimeout(() => {
-               console.log("Send otp in 1 second...")
                setResend(true)
             }, "60000")
          }
       } catch (error) {
-         console.log(error)
+         handleError(error)
+
       }
    }
 

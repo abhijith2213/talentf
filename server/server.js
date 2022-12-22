@@ -21,7 +21,7 @@ server.use(bodyParser.urlencoded({extended:true}))
 server.use(cors())
 
 
-server.use('/images',express.static(path.join(__dirname,'public/images')))
+server.use('/api/images',express.static(path.join(__dirname,'public/images')))
 
 /* ---------------------------------- Routes --------------------------------- */
 

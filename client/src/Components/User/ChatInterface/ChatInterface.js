@@ -10,11 +10,12 @@ import { findSearch } from "../../../Apis/userRequests"
 
 import profile from "../../../assets/images/download.png"
 import { socket } from "../../../Context/socketContext"
+import { useErrorHandler } from "react-error-boundary"
 
 function ChatInterface() {
    const user = useSelector((state) => state.user)
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+   const handleError = useErrorHandler
    const [isPending, startTransition] = useTransition()
 
 
@@ -56,7 +57,6 @@ function ChatInterface() {
          try {
             const { data } = await userChats(user._id)
             setChats(data)
-            console.log(data, "current user chat")
          } catch (error) {
             console.log(error)
          }
@@ -81,10 +81,9 @@ function ChatInterface() {
       startTransition(async () => {
          try {
             const { data } = await findSearch(val)
-            console.log(data, "jjjjjj")
             setSearchUser(data)
          } catch (error) {
-            console.log(error)
+            handleError(error)
          }
       })
    }

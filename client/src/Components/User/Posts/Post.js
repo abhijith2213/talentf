@@ -43,6 +43,8 @@ function Post({ post , setBlock}) {
                   localStorage.removeItem('userToken')
                   localStorage.removeItem('user')
                   navigate("/signin")
+               }else{
+                  handleError(error)
                }
             }
          }
@@ -93,7 +95,6 @@ function Post({ post , setBlock}) {
    // function
 
    const handleSetComment = (e) => {
-      console.log("call")
       if (/^\s/.test(e.target.value)) setComment("")
       else setComment(e.target.value)
    }
@@ -126,6 +127,8 @@ function Post({ post , setBlock}) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
       }
    }
@@ -140,13 +143,14 @@ function Post({ post , setBlock}) {
       const fetchComments = async () => {
          try {          
             let res = await userInstance.get(`/post/viewComments/${post._id}`)
-            console.log(res.data,'commen');
             setAllComments(res.data)
          } catch (error) {
             if (!error?.response?.data?.auth && error?.response?.status === 403) {
                localStorage.removeItem('userToken')
                localStorage.removeItem('user')
                navigate("/signin")
+            }else{
+               handleError(error)
             }
          }
       }
@@ -173,6 +177,8 @@ function Post({ post , setBlock}) {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
       }
    }
@@ -181,11 +187,9 @@ function Post({ post , setBlock}) {
    const [reason,setReason] = useState('')
 
    const handleBlock =async()=>{
-      console.log('blockkk');
       try {
          const {data} = await reportUserPost(reason,post._id,userId) 
          setReason('')
-         console.log(data,'block response');
          setBlock(Date.now())
          toast.warn(data.message)
          } catch (error) {
@@ -193,6 +197,8 @@ function Post({ post , setBlock}) {
                localStorage.removeItem('userToken')
                localStorage.removeItem('user')
                navigate("/signin")
+            }else{
+               handleError(error)
             }
          }
    }

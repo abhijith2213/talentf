@@ -43,7 +43,6 @@ function Profile() {
       const getUserData = async ()=>{
           try {
           const {data}= await getUserByUsername(userName)
-           console.log(data,'usedetails data');
            setUser(data)
            if(selected){
             userInstance.get(`/profile/myposts/${data._id}`).then((res)=>{
@@ -69,13 +68,10 @@ function Profile() {
 
     // follow
     const handleFollow= async(Id)=>{
-
       try {      
-        console.log(userId,'opuserid');
         const res = await  userInstance.put(`/${userId}/follow`,{Id})
         setEffectCall(!effectCall)
       } catch (error) {
-        console.log(error,'kitssssss errrrorororor');
         if (!error?.response?.data?.auth && error?.response?.status === 403) {
           localStorage.removeItem('userToken')
           localStorage.removeItem('user')
@@ -84,7 +80,7 @@ function Profile() {
         handleError(error)
       }   
     }
-
+    
 
     // HANDLE UNFOLLOW 
 
@@ -110,7 +106,6 @@ const handleMessage =async (rid)=>{
       }
     try {
       const {data} = await newUserChat(users)
-      console.log(data,'chat ress');
       navigate('/message')
     } catch (error) {
       console.log(error);
@@ -134,7 +129,6 @@ const showFollowers =async () =>{
   }
   try {
     const {data} = await getUserFollowers(id)
-    console.log(data,'userFollowers');
     setMyFollowers(data)
     setShowModal({status:true,value:'Followers'})
   } catch (error) {
@@ -154,7 +148,6 @@ const showFollowing =async ()=>{
   }
   try {
     const {data} = await getUserFollowing(id)
-    console.log(data,'userFollowing');
     setMyFollowers(data)
     setShowModal({status:true,value:'Following'})
   } catch (error) {
@@ -188,7 +181,6 @@ const handleCoverPic = async ()=>{
         try {
           const {data} = await updateCoverPic(datas)
           if(data.message){
-            console.log(data);
             toast.success(data.message)
            setEffectCall(!effectCall)
            setCoverPic('')
@@ -233,7 +225,7 @@ const handleCoverPic = async ()=>{
          <button type="button" className="text-white flex justify-center items-center bg-gradient-to-r from-violet-500 via-violet-600 to-violet-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20"  onClick={(e)=>handleUnFollow(user._id)}>unfollow</button> 
          </>
          }</>
-        :<Link to={'/account/editProfile'}> <button type="button" className="hidden sm:block text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Edit Profile</button></Link>
+        :<Link to={'/editProfile'}> <button type="button" className="hidden sm:block text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Edit Profile</button></Link>
       }
       </div>
       <div className="ProfileName mt-9 sm:mt-0">

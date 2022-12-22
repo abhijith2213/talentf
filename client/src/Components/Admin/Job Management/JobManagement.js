@@ -4,10 +4,11 @@ import moment from "moment";
 
 import { ToastContainer, toast } from 'react-toastify';  //Toast
 import 'react-toastify/dist/ReactToastify.css';  //Toast Css
+import { useErrorHandler } from "react-error-boundary";
 
 function JobManagement() {
 
-    
+    const handleError = useErrorHandler()
     const [update,setUpdate] = useState(false)
     const [jobs,setJobs] = useState([])
     const [showModal, setShowModal] = useState(false);
@@ -16,14 +17,13 @@ function JobManagement() {
     const [reportData,setreportData] = useState([])
 
     useEffect(()=>{
-        console.log('useeffectttt');
 
         const fetchJob =async ()=>{
             try {
                 const {data} = await fetchReportedJobss()
                 setJobs(data)
             } catch (error) {
-                console.log(error);
+              handleError(error)
             }
         }
         fetchJob()
@@ -37,7 +37,8 @@ function JobManagement() {
           const {data} = await fetchReportedJobDetails(post._id) 
           setreportData(data)
         } catch (error) {
-          console.log(error);
+          handleError(error)
+
         }
     }
 
@@ -45,21 +46,19 @@ function JobManagement() {
         // HANDLE BLOCK POST 
 
         const handleBlockPost =async(postId)=>{
-            console.log(postId,'pppiddd');
             try {
                 const {data} = await blockUserJob(postId)
-                console.log(data,'block res');
                 setUpdate(!update)
                 setShowModal(false)
                 toast.warn(data.message)
             } catch (error) {
-                console.log(error);
+              handleError(error)
             }
         }
 
   return (
     <>
-    <div className='w-full mr-6 '>
+    <div className='w-full mr-6 max-h-screen overflow-y-auto no-scrollbar'>
        <h2 className='text-2xl font-bold my-6'>Job Management</h2>
 
        <div className='overflow-x-auto relative'>

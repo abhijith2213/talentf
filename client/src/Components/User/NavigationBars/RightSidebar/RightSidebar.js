@@ -15,7 +15,6 @@ function RightSidebar() {
 
   const [suggestions,setSuggestions] = useState([])
   const [state, setState] = useState(false)
-console.log(suggestions,'suggestions');
   const userId = userData._id
 
 useEffect(() => {

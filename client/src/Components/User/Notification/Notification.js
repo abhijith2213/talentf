@@ -4,26 +4,22 @@ import { getAllNotifications } from "../../../Apis/userRequests"
 import { format } from "timeago.js"
 import { socket } from "../../../Context/socketContext"
 import { Link, useNavigate } from "react-router-dom"
+import { useErrorHandler } from "react-error-boundary"
 
 
 function Notification() {
 
    const navigate = useNavigate()
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+   const handleError = useErrorHandler()
 
    const userData = useSelector((state) => state.user)
 
    const [notifications, setNotifications] = useState([])
    const [notCount,setNotCount] = useState([])
    
-   console.log(notCount,'notcount');
-
-   localStorage.setItem('count', 0);
-
 
    useEffect(()=>{
-      console.log('effect called');
       socket.on("getNotification",data =>{
          setNotCount((prev)=>[...prev,data])
       })
@@ -33,7 +29,6 @@ function Notification() {
       try {
          const fetchNotifications = async () => {
             const { data } = await getAllNotifications(userData._id)
-            console.log(data, "notyyyyyy")
             setNotifications(data)
          }
          fetchNotifications()
@@ -42,6 +37,8 @@ function Notification() {
             localStorage.removeItem('userToken')
             localStorage.removeItem('user')
             navigate("/signin")
+         }else{
+            handleError(error)
          }
       }
    }, [socket,notCount])

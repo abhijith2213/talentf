@@ -14,22 +14,22 @@ router.post('/admin_login',postAdminLogin)
 router.get('/user_management',verifyJWT, getUserManagement)
 
 
-router.put('/user_management/block_user',blockUser)
+router.put('/user_management/block_user',verifyJWT,blockUser)
 
-router.put('/user_management/unblock_user',unblockUser)
+router.put('/user_management/unblock_user',verifyJWT,unblockUser)
 
-router.get('/posts/reportedPosts',getReportedPosts)
+router.get('/posts/reportedPosts',verifyJWT,getReportedPosts)
 
-router.put('/post/block/:id',blockPost)
-
-
-router.put('/post/unblock/:id',unBlockPost)
-
-router.get(`/reportedWorks`,fetchReportedJobs)
-
-router.get(`/reportedJobs/details/:id`,ReportedJobDetails)
+router.put('/post/block/:id',verifyJWT,blockPost)
 
 
-router.put('/jobs/block/:id',blockJOb)
+router.put('/post/unblock/:id',verifyJWT,unBlockPost)
+
+router.get(`/reportedWorks`,verifyJWT,fetchReportedJobs)
+
+router.get(`/reportedJobs/details/:id`,verifyJWT,ReportedJobDetails)
+
+
+router.put('/jobs/block/:id',verifyJWT,blockJOb)
 
 module.exports = router

@@ -7,12 +7,10 @@ const User = require("../Models/userSchema");
 const postAdminLogin =(req,res)=>{
 
     try {       
-        console.log(req.body);
         const adminMail = process.env.ADMIN_EMAIL
         const adminPass = process.env.ADMIN_PASS
          
         if(adminMail === req.body.email){
-            console.log('email Ok');
 
             if(adminPass === req.body.password){
                 const id = "admin4rt3"
@@ -34,10 +32,8 @@ const postAdminLogin =(req,res)=>{
 /* --------------------------- GET USER MANAGEMENT -------------------------- */
 
 const getUserManagement = (req,res)=>{
-    console.log('hyyy');
     try {
         User.find().then(response=>{
-            console.log(response);
             res.status(200).json(response)
         })
 
@@ -50,7 +46,6 @@ const getUserManagement = (req,res)=>{
 /* ------------------------------- BLOCK USER ------------------------------- */
 
 const blockUser = (req,res)=>{
-    console.log(req.body.userId,'its body');
 
     try {
         User.findByIdAndUpdate({_id:req.body.userId},

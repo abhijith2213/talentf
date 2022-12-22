@@ -4,11 +4,12 @@ import moment from "moment"
 import { ToastContainer, toast } from 'react-toastify';  //Toast
 import 'react-toastify/dist/ReactToastify.css';  //Toast Css
 import { blockUserPost, fetchReportedPosts, getReportDetails, unblockUserPost } from "../../../Apis/PostRequest";
+import { useErrorHandler } from "react-error-boundary";
 
 function PostManagement() {
 
     const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+    const handleError = useErrorHandler()
     const [update,setUpdate] = useState(false)
     const [posts,setPosts] = useState([])
     const [showModal, setShowModal] = useState(false);
@@ -23,7 +24,7 @@ function PostManagement() {
                 const {data} = await fetchReportedPosts()
                 setPosts(data)
             } catch (error) {
-                console.log(error);
+              handleError(error)
             }
         }
         fetchPost()
@@ -31,7 +32,6 @@ function PostManagement() {
 
     // HANDLE MODAL VIEW 
 
-    console.log(reportData);
     const handleView=async(post)=>{
         setModalData(post)
         setShowModal(true)
@@ -39,22 +39,20 @@ function PostManagement() {
           const {data} = await getReportDetails(post._id) 
           setreportData(data)
         } catch (error) {
-          console.log(error);
+          handleError(error)
         }
     }
 
     // HANDLE BLOCK POST 
 
     const handleBlockPost =async(postId)=>{
-        console.log(postId,'pppiddd');
         try {
             const {data} = await blockUserPost(postId)
-            console.log(data,'block res');
             setUpdate(!update)
             setShowModal(false)
             toast.warn(data.message)
         } catch (error) {
-            console.log(error);
+          handleError(error)
         }
     }
 
@@ -63,19 +61,18 @@ function PostManagement() {
     const handleUnblockPost = async (postId)=>{
         try {
             const {data} = await unblockUserPost(postId)
-            console.log(data,'block res');
             setUpdate(!update)
             setShowModal(false)
             toast.warn(data.message)
         } catch (error) {
-            console.log(error);
+          handleError(error)
         }
     }
 
 
   return (
     <>
-    <div className='w-full mr-6 '>
+    <div className='w-full mr-6 max-h-screen overflow-y-auto no-scrollbar'>
        <h2 className='text-2xl font-bold my-6'>Post Management</h2>
 
        <div className='overflow-x-auto relative'>

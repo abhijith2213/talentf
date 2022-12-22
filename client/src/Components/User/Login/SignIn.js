@@ -5,13 +5,15 @@ import loginImg from "../../../assets/images/4204968.jpg";
 import { useDispatch } from "react-redux";
 import { update , setProfilePic} from "../../../Redux/User/userSlice";
 import logo from '../../../assets/images/talentF-c.png'
+import { useErrorHandler } from "react-error-boundary";
 
 function SignIn() {
 
   // reducer 
   const dispatch  = useDispatch()
   const navigate = useNavigate()
-
+  const handleError = useErrorHandler()
+  
   useEffect(()=>{
     const token = localStorage.getItem('userToken')
     if(token){
@@ -55,14 +57,13 @@ function SignIn() {
                 console.log('error with login');
               }
           }).catch((error)=>{
-            console.log(error);
             setFormError(error.response.data.message)
             navigate('/signin')
           })
         }
 
     } catch (error) {
-      console.log(error.message);
+      handleError(error)
     }
    
   }

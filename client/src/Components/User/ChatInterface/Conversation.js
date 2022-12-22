@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
+import { useErrorHandler } from "react-error-boundary"
 import { getUser } from "../../../Apis/userRequests"
 
 function Conversation({ data, currentUserId, online }) {
 
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
-  console.log(data,'conversation dataa');
    const [userData, setUserData] = useState(null)
+   const handleError = useErrorHandler()
 
    useEffect(() => {
       const userId = data.members.find((id) => id !== currentUserId)
@@ -14,7 +15,7 @@ function Conversation({ data, currentUserId, online }) {
             const { data } = await getUser(userId)
             setUserData(data)
          } catch (error) {
-            console.log(error)
+            handleError(error)
          }
       }
       getUserData()
