@@ -76,7 +76,8 @@ const userId = userData?._id
 
     <>
       {userData.accountType === 'client' ?
-      <div className='bg-white m-12 shadow-md rounded-md p-8 fixed right-0 top-0 hidden lg:block'>
+   <div className="flex justify-center ">
+      <div className='bg-white m-12 shadow-md rounded-md p-8 lg:fixed right-0 top-0 w-[470px] lg:w-fit'>
          <p className='mb-6 font-medium text-blue-700'>Work Requests</p>
          {requests?.length != 0 ? requests?.map((req)=>{
          let date = moment(req?.createdAt).format("YYYY-MM-DD")
@@ -135,6 +136,7 @@ const userId = userData?._id
          }
          <hr />
       </div>
+   </div>
       : null}
       <ToastContainer
       position="top-center"

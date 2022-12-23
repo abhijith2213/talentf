@@ -5,6 +5,7 @@ import { format } from "timeago.js"
 import { socket } from "../../../Context/socketContext"
 import { Link, useNavigate } from "react-router-dom"
 import { useErrorHandler } from "react-error-boundary"
+import RightSidebar from "../NavigationBars/RightSidebar/RightSidebar"
 
 
 function Notification() {
@@ -74,6 +75,9 @@ function Notification() {
                      ) : (
                         <p className="p-4 font-medium">No notifications to show</p>
                      )}
+                     <div className='w-full  '>
+                        <RightSidebar/>
+                     </div>
                   </div>
                </div>
             </div>

@@ -11,6 +11,7 @@ import { MdOutlineWorkOff } from "react-icons/md"
 import { addNewJob, findAllPosts, findAssignedPosts, findMyPosts, findWorksToMe} from "../../../Apis/JobRequests"
 import Client from "./Client"
 import Freelancer from "./Freelancer"
+import JobRequests from "../NavigationBars/RightSidebar/JobRequests"
 
 function Jobs() {
    const userData = useSelector((state) => state.user)
@@ -20,8 +21,7 @@ function Jobs() {
    const navigate = useNavigate()
    const [effect, setEffect] = useState('')
    const [showModal, setShowModal] = useState(false)
-   // const [showReport, setShowReport] = useState(false)
-   const [selected,setSelected] = useState(true)
+   const [selected,setSelected] = useState('current')
 
    /* ------------------------------- ADD NEW JOB ------------------------------ */
 
@@ -58,7 +58,7 @@ function Jobs() {
    const [allJobs, setAllJobs] = useState([])
    useEffect(() => {
       if (userData.accountType === "client") {
-         if(selected){
+         if(selected === 'current'){
             try {
                const findMyJobs = async () => {
                   const { data } = await findMyPosts(userId)
@@ -74,7 +74,7 @@ function Jobs() {
                }
                handleError(error)
             }
-         }else{
+         }else if(selected === 'assigned'){
             try {
                const findMyJobs = async () => {
                   const { data } = await findAssignedPosts(userId)
@@ -92,7 +92,7 @@ function Jobs() {
             }
          }
       } else {
-         if(selected){
+         if(selected === 'current'){
          try {
             const findAllJobs = async () => {
                const { data } = await findAllPosts(userId)
@@ -108,7 +108,7 @@ function Jobs() {
             handleError(error)
 
          }
-      }else{
+      }else if(selected === 'assigned'){
          try {
             const findMyJobs = async () => {
                const { data } = await findWorksToMe(userId)
@@ -148,13 +148,20 @@ function Jobs() {
             </div>
           </div>
          </div>
-          <div className="flex gap-4 justify-center w-3/4 pl-6 ">
-            <p disabled={selected} className={selected ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
-            onClick={()=>setSelected(true)}
-            >Current</p>
-            <p disabled={!selected} className={!selected ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
-            onClick={()=>setSelected(false)}>Assigned</p>
+         <div className="flex gap-4 justify-center w-3/4 pl-6 ">
+            <p disabled={selected !== 'current'} className={selected === 'current' ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
+            onClick={()=>setSelected('current')}>Current</p>
+            <p disabled={selected !== 'assigned'} className={selected === 'assigned' ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed ":"px-2 cursor-pointer"}
+            onClick={()=>setSelected('assigned')}>Assigned</p>
+            <p disabled={selected !== 'request'} className={selected === 'request' ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed lg:hidden":"px-2 cursor-pointer lg:hidden"}
+            onClick={()=>setSelected('request')}>Requests</p>
           </div>
+
+          {selected === 'request' ?
+
+            <div className="w-full"><JobRequests/></div>
+
+            :<>
          
             {myJobs.length !== 0 ?
              myJobs?.map((job,i)=>(
@@ -168,16 +175,16 @@ function Jobs() {
                <p className="text-gray-500 font-medium text-xl h-max">There is no job to show!</p>
             </div>
             </div>
-            }
+            }</>}
           </div>
             : 
             <div className="overflow-x-hidden mt-12">
             <div className="flex gap-4 justify-center w-3/4 pl-6 ">
-            <p disabled={selected} className={selected ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
-            onClick={()=>setSelected(true)}
+            <p disabled={selected !== 'current'} className={selected === 'current'?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
+            onClick={()=>setSelected('current')}
             >Open</p>
-            <p disabled={!selected} className={!selected ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
-            onClick={()=>setSelected(false)}>Accepted</p>
+            <p disabled={selected !== 'assigned'} className={selected === 'assigned' ?"border rounded-md px-2 bg-blue-400 text-white disabled:cursor-not-allowed":"px-2 cursor-pointer"}
+            onClick={()=>setSelected('assigned')}>Accepted</p>
           </div>
                {allJobs.length !== 0 ? allJobs?.map((job,i)=>(
                   <>
