@@ -137,6 +137,7 @@ const verifyOtp = async (req, res) => {
     let validOtp = await bcrypt.compare(req.body.otp,validUser.otp)
 
     if(validOtp){
+      await validUser.updateOne({otp:'used'})
         res.status(200).json({message:'otp verified',auth:true})
     }else{
         res.status(403).json({message:'invalid Otp'})
@@ -477,7 +478,7 @@ const updateNewPassword =async(req,res)=>{
          if(validUrl){
          const password =await bcrypt.hash(pass,10)
          await User.updateOne({email:email},{$set:{password:password}})
-        
+        await user.updateOne({otp:'used'})
          res.status(200).json({message:'Password updated Successfully'})
          }else{
           res.status(403).json({message:'Authentication Failed'})

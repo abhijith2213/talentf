@@ -89,12 +89,12 @@ function ChatInterface() {
    }
 
    return (
-      <div className='lg:ml-20 mt-20 md:mt-0 bg-[#FFFFFF] shadow-md  w-full md:w-11/12 lg:w-3/4 '>
-         <div className='container mx-auto '>
-            <div className='min-w-full border rounded lg:grid lg:grid-cols-3 h-screen flex'>
+      <div className='lg:ml-20 max-h-screen md:mt-0 bg-[#FFFFFF] shadow-md  w-full md:w-11/12 lg:w-3/4 '>
+         <div className='md:container mx-auto no-scrollbar'>
+            <div className='min-w-full border rounded lg:grid lg:grid-cols-3 h-screen flex justify-between'>
                <div className='border-r border-gray-300 md:col-span-1 '>
                   <div className='mx-3 my-3'>
-                     <div className='relative text-gray-600'>
+                     <div className='relative text-gray-600 hidden md:block'>
                         <span className='absolute inset-y-0 left-0 flex items-center pl-2'>
                            <svg
                               fill='none'

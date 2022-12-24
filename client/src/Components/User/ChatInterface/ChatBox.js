@@ -90,7 +90,7 @@ function ChatBox({ chat, currentUser, setSendMessage, recieveMessage }) {
    return (
       <>
          {chat ? (
-            <div className={`md:col-span-2 md:block  relative `}>
+            <div className={`md:col-span-2 md:block  relative w-full my-10 `}>
                <div className='w-full'>
                   <div className='relative flex items-center p-3 border-b border-gray-300'>
                      <img
@@ -144,7 +144,7 @@ function ChatBox({ chat, currentUser, setSendMessage, recieveMessage }) {
                </div>
             </div>
          ) : (
-            <div className='w-full flex items-center justify-end'>
+            <div className='w-full flex items-center text-center justify-center lg:justify-end'>
                <span>Tap on a chat to start Conversation</span>
             </div>
          )}
