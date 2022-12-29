@@ -22,7 +22,7 @@ function ChatInterface() {
 
 
    // STATES
-
+   const [responsive,setResponsive] = useState(false)
    const [chats, setChats] = useState([])
    const [currentChat, setCurrentChat] = useState(null)
    const [onlineUsers, setOnlineUsers] = useState([])

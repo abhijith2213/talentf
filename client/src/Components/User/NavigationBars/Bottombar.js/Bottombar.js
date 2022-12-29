@@ -10,8 +10,9 @@ import { socket, SocketContext } from "../../../../Context/socketContext"
 import { useSelector, useDispatch } from "react-redux"
 import { confirmAlert } from "react-confirm-alert"
 import { remove } from "../../../../Redux/User/userSlice"
-import { fetchNoCounts, findSearch } from "../../../../Apis/userRequests"
+import { fetchNoCounts, findSearch, handleNotCount } from "../../../../Apis/userRequests"
 import { useErrorHandler } from "react-error-boundary"
+import { addMessage } from "../../../../Redux/User/message"
 
 function Bottombar() {
    const userData = useSelector((state) => state.user)

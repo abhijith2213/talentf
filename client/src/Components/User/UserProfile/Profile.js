@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router"
 
 import { ToastContainer, toast } from "react-toastify" //Toast
@@ -13,13 +13,13 @@ import { MdOutlinePhotoCameraBack, MdArchive, MdDynamicFeed, MdModeEditOutline }
 import { BiImage } from "react-icons/bi"
 import { FaRegHeart } from "react-icons/fa"
 import { getUserByUsername, getUserFollowers, getUserFollowing, updateCoverPic } from "../../../Apis/userRequests"
-import { newUserChat } from "../../../Apis/chatRequests"
 import userInstance from "../../../Axios/userAuth"
 import { useErrorHandler } from "react-error-boundary"
+import { addMessage } from "../../../Redux/User/message"
 
 function Profile() {
    const navigate = useNavigate()
-
+   const dispatch = useDispatch()
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
 
    const userData = useSelector((state) => state.user)

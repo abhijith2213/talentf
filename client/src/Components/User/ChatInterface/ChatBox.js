@@ -3,11 +3,12 @@ import { addMessage, getMessages } from "../../../Apis/MessageRequest"
 import { getUser } from "../../../Apis/userRequests"
 import { format } from "timeago.js"
 import InputEmoji from "react-input-emoji"
+import {BiArrowBack} from 'react-icons/bi'
 
 import profile from "../../../assets/images/download.png"
 import { useErrorHandler } from "react-error-boundary"
 
-function ChatBox({ chat, currentUser, setSendMessage, recieveMessage }) {
+function ChatBox({ chat, currentUser, setSendMessage, recieveMessage ,setResponsive}) {
    const PF = process.env.REACT_APP_PUBLIC_FOLDER
    const handleError = useErrorHandler
    const [userData, setUserData] = useState(null)
