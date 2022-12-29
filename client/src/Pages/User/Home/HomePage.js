@@ -13,7 +13,9 @@ function HomePage() {
       <div className='w-full lg:w-11/12 flex justify-center pb-6 max-h-screen overflow-y-auto no-scrollbar'>
       <Home/>
       </div>
+      <div className='hidden lg:block'>
       <RightSidebar/>
+      </div>
       <Bottombar/>
     </div>
   )

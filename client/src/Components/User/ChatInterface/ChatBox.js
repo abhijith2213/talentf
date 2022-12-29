@@ -89,66 +89,68 @@ function ChatBox({ chat, currentUser, setSendMessage, recieveMessage }) {
 
    return (
       <>
-         {chat ? (
-            <div className={`md:col-span-2 md:block  relative w-full my-10 `}>
-               <div className='w-full'>
-                  <div className='relative flex items-center p-3 border-b border-gray-300'>
-                     <img
-                        className='object-cover w-10 h-10 rounded-full'
-                        src={userData?.profilePic ? PF + userData.profilePic : profile}
-                        alt='username'
-                     />
-                     <span className='block ml-2 font-bold text-gray-600'>{userData?.userName}</span>
-                  </div>
-                  <div className='relative w-full p-6 overflow-y-auto h-[28rem] no-scrollbar'>
-                     <ul className='space-y-2'>
-                        {messages?.map((message) => (
-                           <>
-                              {message.senderId !== currentUser ? (
-                                 <li ref={scroll} className='flex justify-start' key={message._id}>
-                                    <div className='relative max-w-xl px-4 py-2 bg-cyan-100 rounded shadow rounded-b-xl rounded-tr-xl rounded-tl-none'>
-                                       <span className='block'>{message.text}</span>
-                                       <span className='text-xs'>{format(message.createdAt)}</span>
-                                    </div>
-                                 </li>
-                              ) : (
-                                 <li ref={scroll} className='flex justify-end' key={message._id}>
-                                    <div className='relative max-w-xl px-4 py-2 text-gray-700 bg-blue-200 rounded-b-xl rounded-tl-xl rounded-tr-none shadow'>
-                                       <span className='block'>{message.text}</span>
-                                       <span className='text-xs'>{format(message.createdAt)}</span>
-                                    </div>
-                                 </li>
-                              )}
-                           </>
-                        ))}
-                     </ul>
-                  </div>
-               </div>
-               <div className=' flex items-center justify-between w-full p-3 border-t border-gray-300 absolute bottom-0'>
-                  <InputEmoji
-                     placeholder='Message'
-                     className='block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700'
-                     value={newMessage}
-                     onChange={handleChange}
-                  />
-                  <button disabled={!newMessage} onClick={handleSend}>
-                     <svg
-                        className='w-5 h-5 text-gray-500 origin-center transform rotate-90'
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox='0 0 20 20'
-                        fill='currentColor'
-                     >
-                        <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z' />
-                     </svg>
-                  </button>
-               </div>
-            </div>
-         ) : (
-            <div className='w-full flex items-center text-center justify-center lg:justify-end'>
-               <span>Tap on a chat to start Conversation</span>
-            </div>
-         )}
-      </>
+      {chat?
+    <div class={`md:col-span-2 relative md:w-full h-[90%]`}>
+       <div class='w-full h-full'>
+          <div class='relative flex gap-2 items-center p-3 border-b border-gray-300'>
+           <span onClick={()=>setResponsive(false)}><BiArrowBack /></span>
+             <img
+                class='object-cover w-10 h-10 rounded-full'
+                src={userData?.profilePic? PF+userData.profilePic : profile}
+                alt='username'/>
+             <span class='block ml-2 font-bold text-gray-600'>{userData?.userName}</span>
+          </div>
+          <div class='relative w-full p-6 overflow-y-auto h-[29rem] no-scrollbar'>
+             <ul class='space-y-2'>
+              {messages?.map((message)=>(
+                  <>
+                  {message.senderId !== currentUser ?
+                <li ref={scroll} class='flex justify-start' key={message._id}>
+                   <div class='relative max-w-xl px-4 py-2 bg-cyan-100 rounded shadow rounded-b-xl rounded-tr-xl rounded-tl-none'>
+                      <span class='block'>{message.text}</span>
+                      <span className="text-xs">{format(message.createdAt)}</span>
+                   </div>
+                </li>
+                :
+                <li ref={scroll} class="flex justify-end"  key={message._id}>
+                <div class="relative max-w-xl px-4 py-2 text-gray-700 bg-blue-200 rounded-b-xl rounded-tl-xl rounded-tr-none shadow">
+                  <span class="block">{message.text}</span>
+                  <span className="text-xs">{format(message.createdAt)}</span>
+                </div>
+              </li>
+                }
+                </>
+              ))}
+             </ul>
+          </div>
+       </div>
+       <div class=' flex items-center justify-between w-full p-3 border-t border-gray-300 bottom-0'>
+
+          <InputEmoji
+           placeholder='Message'
+           class='block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700'
+           value={newMessage}
+           onChange = {handleChange}
+          />
+          <button disabled={!newMessage}  onClick={handleSend}>
+             <svg
+                class='w-5 h-5 text-gray-500 origin-center transform rotate-90'
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'>
+                <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z' />
+             </svg>
+          </button>
+       </div>
+    </div>
+   :
+   <div className="hidden md:block w-full h-full lg:flex items-center  justify-center ">
+    <span>
+      Tap on a chat to start Conversation
+    </span>
+    </div>
+      }
+</>
    )
 }
 

@@ -57,6 +57,21 @@ function Bottombar() {
       navigate("/signin")
    }
 
+   const handleMessage = async ()=>{
+      await dispatch(addMessage(null))
+   }
+
+      /* ------------------------ HANDLE NOTIFICATION COUNT ----------------------- */
+
+      const handleNotiView = async () => {
+         console.log("hi action")
+         try {
+            const { data } = await handleNotCount(userData._id)
+         } catch (error) {
+            handleError(error)
+         }
+      }
+
    /* ------------------------------ SEARCH USERS ------------------------------ */
 
    const [serachUser, setSearchUser] = useState([])
@@ -81,7 +96,7 @@ function Bottombar() {
    const menus = [
       { name: "works", link: "/works", icon: MdWorkOutline },
       { name: "Home", link: "/home", icon: BiHome },
-      { name: "Messages", link: "/message", icon: FiMessageSquare, bottom: true },
+      { name: "Messages", link: "/message", icon: FiMessageSquare, bottom: true ,action:handleMessage},
    ]
 
    return (
@@ -92,6 +107,7 @@ function Bottombar() {
                   <Link
                      to={menu?.link}
                      key={i}
+                     onClick={menu.action}
                      className={` ${
                         menu?.bottom && ""
                      } group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-300 rounded-md`}
@@ -165,7 +181,7 @@ function Bottombar() {
                   </div>
                </div>
                <div className='flex gap-5 text-2xl '>
-                  <div>
+                  <div  onClick={handleNotiView}>
                      {notifications !== 0 ? (
                         <p className='px-1 text-xs absolute text-white bg-red-500 rounded-full'>{notifications}</p>
                      ) : null}

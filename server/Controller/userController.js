@@ -107,7 +107,6 @@ const otpGenerate =async(email,res,link)=>{
                 html: `<p>Hello User Your six digit OTP for authentication is <b>${OTP}</b></p>`, // html body
              })
          }
-
              if(info.messageId){
                 res.status(200).json({status:true,message:'Otp send to mail'})
              }else{

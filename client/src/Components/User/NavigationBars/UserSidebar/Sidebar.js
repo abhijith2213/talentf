@@ -18,6 +18,7 @@ import { remove } from "../../../../Redux/User/userSlice"
 import { socket } from "../../../../Context/socketContext"
 import { fetchNoCounts, findSearch, handleNotCount } from "../../../../Apis/userRequests"
 import { useErrorHandler } from "react-error-boundary"
+import { addMessage } from "../../../../Redux/User/message"
 
 function Sidebar() {
    const navigate = useNavigate()
@@ -91,14 +92,18 @@ function Sidebar() {
        const val = e.target.value
        if (val == "") {
           setSearchUser([])
-       }
-       try {
-          const { data } = await findSearch(val)
-          setSearchUser(data)
-       } catch (error) {
-         handleError(error)
+       }else{
+          try {
+             const { data } = await findSearch(val)
+             setSearchUser(data)
+          } catch (error) {
+            handleError(error)
+          }
        }
     }
+    const handleMessage = async ()=>{
+      await dispatch(addMessage(null))
+   }
 
    /* --------------------------------- OPTIONS -------------------------------- */
    const [modal, setModal] = useState(false)
@@ -106,7 +111,7 @@ function Sidebar() {
 
    const menus = [
       { name: "Home", link: "/home", icon: BiHome },
-      { name: "messages", link: "/message", icon: FiMessageSquare },
+      { name: "messages", link: "/message", icon: FiMessageSquare ,action:handleMessage},
       {
          name: "Notifications",
          link: "/notifications",
@@ -263,8 +268,8 @@ function Sidebar() {
                         <ul className='my-4 space-y-3 max-h-[50%] overflow-y-auto no-scrollbar'>
                            {serachUser.length !== 0
                               ? serachUser.map((user) => (
-                                   <Link to={`/profile/${user.userName}`}>
-                                      <li className='m-2'>
+                                   <Link to={`/profile/${user.userName}`} >
+                                      <li className='m-2' onClick={()=>setSearchModal(false)}>
                                          <div className='flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white'>
                                             <img
                                                class='object-cover w-10 h-10 rounded-full'

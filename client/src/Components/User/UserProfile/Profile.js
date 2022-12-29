@@ -98,12 +98,9 @@ function Profile() {
    // HANDLE MESSAGE
 
    const handleMessage = async (rid) => {
-      let users = {
-         senderId: userId,
-         receiverId: rid,
-      }
+
       try {
-         const { data } = await newUserChat(users)
+        await dispatch(addMessage(rid))
          navigate("/message")
       } catch (error) {
          console.log(error)
@@ -191,6 +188,7 @@ function Profile() {
 
    return (
       <>
+      
          <div className='w-full mt-10 sm:mt-16 sm:mx-4 md:mt-0 md:w-5/6  lg:w-3/4 lg:flex lg:justify-end bg-white overflow-y-auto no-scrollbar'>
             <div className='ProfileCard lg:container mt-5 '>
                {userName !== userData.userName ? (
@@ -257,11 +255,11 @@ function Profile() {
                         )}
                      </>
                   ) : (
-                     <Link to={"/editProfile"}>
+                     <Link to={"/account/editProfile"}>
                         {" "}
                         <button
                            type='button'
-                           className='hidden sm:block text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800'
+                           class=' text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-700  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800'
                         >
                            Edit Profile
                         </button>
@@ -345,35 +343,39 @@ function Profile() {
 
                {/* profile feeds */}
                {myPosts.length !== 0 ? (
-                  <div class='flex flex-wrap -mx-px md:-mx-3'>
-                     {myPosts?.map((posts, i) => {
-                        return (
-                           <div class='w-1/3 p-px md:px-3' key={i}>
-                              <article class='post bg-gray-100 text-white relative pb-full md:mb-6'>
-                                 <img
-                                    class='w-full h-full absolute left-0 top-0 object-cover'
-                                    src={PF + posts.image}
-                                    alt='image'
-                                 />
+                     <div class='flex flex-wrap -mx-px md:-mx-3'>
+                        {myPosts?.map((posts, i) => {
+                           return (
+                                 <div class='w-1/3 p-px md:px-3' key={i}>
+                                    <article class='post bg-gray-100 text-white relative pb-full md:mb-6'>
+                                       <img
+                                          class='w-full h-full absolute left-0 top-0 object-cover'
+                                          src={PF + posts.image}
+                                          alt='image'
+                                       />
 
-                                 <div
-                                    class='overlay bg-gray-800 bg-opacity-25 w-full h-full absolute 
-                                      left-0 top-0 hidden'>
-                                    <div
-                                       class='flex flex-col justify-center items-center 
-                                          space-x-4 h-full'>
-                                       <span class='p-2 inline-flex items-center gap-2'>
-                                          <FaRegHeart />
-                                          {posts?.likes?.length}
-                                       </span>
-                                       <span class='p-2 inline-flex items-center gap-2'>{posts?.description}</span>
-                                    </div>
+                                       <div
+                                          class='overlay bg-gray-800 bg-opacity-25 w-full h-full absolute 
+                                      left-0 top-0 hidden'
+                                       >
+                                          <div
+                                             class='flex flex-col justify-center items-center 
+                                          space-x-4 h-full'
+                                          >
+                                             <span class='p-2 inline-flex items-center gap-2'>
+                                                <FaRegHeart/>
+                                                {posts?.likes?.length}
+                                             </span>
+                                             <span class='p-2 inline-flex items-center gap-2'>
+                                                {posts?.description}
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </article>
                                  </div>
-                              </article>
-                           </div>
-                        )
-                     })}
-                  </div>
+                           )
+                        })}
+                     </div>
                ) : (
                   <div className='flex flex-col justify-center items-center w-full'>
                      <MdOutlinePhotoCameraBack className='text-6xl text-gray-400' />

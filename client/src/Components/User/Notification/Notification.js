@@ -53,7 +53,7 @@ function Notification() {
                <div className='pt-16 md:pt-10 flex justify-center h-3/4'>
                   <div className='w-4/5 md:w-1/2 flex-col justify-center rounded-md  bg-white min-h-screen max-h-screen overflow-y-auto no-scrollbar'>
                      <div className='w-full'>
-                        <h2 className='ml-4 mt-2 font-medium text-lg'>Notifications</h2>
+                        <h2 className='ml-4 mt-5 font-medium text-lg'>Notifications</h2>
                      </div>
                      
                      {notifications && notifications?.length !== 0? (
@@ -64,10 +64,9 @@ function Notification() {
                               <img src={ PF+data?.user?.profilePic} className='w-10 rounded-full' alt='' />
                            </Link>
                            </div>
-                           <div className='p-2 flex items-center'>
-                              <p className='font-medium pr-2'>{data?.user?.userName}</p>
-                              <p>{data?.desc}</p>
-                              <p className='text-gray-400 pl-2 text-sm '>{format(data?.time)}</p>
+                           <div className='p-2  flex  md:items-center'>
+                                 <p className='font-medium pr-2 mt-2 md:mt-0'>{data?.user?.userName}</p>
+                                 <p className="mt-2 md:mt-0">{data?.desc} &nbsp;<span className="text-gray-400  pl-2 text-sm'">{format(data?.time)}</span></p>
                            </div>
                         </div>
                         ))
