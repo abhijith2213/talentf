@@ -298,7 +298,7 @@ function Post({ post , setBlock}) {
                               </span>
                               <span>{like}</span>
                            </div>
-
+                                    
                            <div className='flex items-center gap-1'>
                               <span title='comment' className='text-gray-600' onClick={handleViewComment}>
                                  {React.createElement(FaRegComment, { size: 18 })}

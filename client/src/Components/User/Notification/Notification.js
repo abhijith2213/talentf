@@ -50,10 +50,10 @@ function Notification() {
          <div className=' w-full h-full '>
             {/* FEEDS ADD  */}
             <div>
-               <div className='pt-16 md:pt-10 flex justify-center h-3/4'>
-                  <div className='w-4/5 md:w-1/2 flex-col justify-center rounded-md  bg-white min-h-screen max-h-screen overflow-y-auto no-scrollbar'>
-                     <div className='w-full'>
-                        <h2 className='ml-4 mt-5 font-medium text-lg'>Notifications</h2>
+            <div className='w-screen md:w-full md:flex  md:justify-center h-3/4'>
+            <div className='relative px-10 lg:px-0 md:w-4/5 md:ml-10 lg:ml-0 lg:w-1/2 flex-col justify-center rounded-md  bg-white min-h-screen max-h-screen overflow-y-auto no-scrollbar'>
+            <div className='w-full sticky top-8 md:top-0 p-3 bg-white '>
+                        <h2 className='ml-4 mt-5 font-medium text-xl'>Notifications</h2>
                      </div>
                      
                      {notifications && notifications?.length !== 0? (
