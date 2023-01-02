@@ -230,9 +230,8 @@ function Profile() {
                         {!user?.followers?.includes(userId) ? (
                            <button
                               type='button'
-                              className='text-white flex justify-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20'
-                              onClick={(e) => handleFollow(user._id)}
-                           >
+                              className='text-white hidden sm:flex justify-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20'
+                              onClick={(e) => handleFollow(user._id)}>
                               follow
                            </button>
                         ) : (
@@ -300,22 +299,36 @@ function Profile() {
                         <span className='font-medium'>following</span>
                      </div>
                   </div>
-                  <div className='flex '>
-                     <button
-                        onClick={(e) => handleMessage(user._id)}
-                        type='button'
-                        class='text-gray-900 sm:hidden bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2'
-                     >
-                        message
-                     </button>
-                     <button
-                        type='button'
-                        className='text-white sm:hidden  flex justify-center items-center bg-gradient-to-r from-violet-500 via-violet-600 to-violet-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20'
-                        onClick={(e) => handleUnFollow(user._id)}
-                     >
-                        unfollow
-                     </button>
-                  </div>
+                  {userName !== userData.userName && (
+                     <>
+                        {!user?.followers?.includes(userId) ? (
+                           <button
+                              type='button'
+                              className='text-white sm:hidden  flex justify-center items-center bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20'
+                              onClick={(e) => handleFollow(user._id)}
+                           >
+                              follow
+                           </button>
+                        ) : (
+                           <div className='flex '>
+                              <button
+                                 onClick={(e) => handleMessage(user._id)}
+                                 type='button'
+                                 class='text-gray-900 sm:hidden bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2'
+                              >
+                                 message
+                              </button>
+                              <button
+                                 type='button'
+                                 className='text-white sm:hidden  flex justify-center items-center bg-gradient-to-r from-violet-500 via-violet-600 to-violet-700 hover:bg-gradient-to-br focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center mr-2 mb-2 w-20'
+                                 onClick={(e) => handleUnFollow(user._id)}
+                              >
+                                 unfollow
+                              </button>
+                           </div>
+                        )}{" "}
+                     </>
+                  )}
                   <hr />
                </div>
 
