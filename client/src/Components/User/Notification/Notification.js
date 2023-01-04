@@ -70,7 +70,6 @@ function Notification() {
                            </div>
                         </div>
                         ))
-
                      ) : (
                         <p className="p-4 font-medium">No notifications to show</p>
                      )}
