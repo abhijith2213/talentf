@@ -254,7 +254,7 @@ function Profile() {
                         )}
                      </>
                   ) : (
-                     <Link to={"/account/editProfile"}>
+                     <Link to={"/editProfile"}>
                         {" "}
                         <button
                            type='button'

@@ -61,7 +61,7 @@ function Notification() {
                         <div className='flex p-6 mx-2 max-h-full overflow-y-auto'>
                            <div>
                            <Link to={userData?.userName === data?.user?.userName?'/myprofile':`/profile/${data?.user?.userName}`}>
-                              <img src={ PF+data?.user?.profilePic} className='w-10 rounded-full' alt='' />
+                              <img src={ PF+data?.user?.profilePic} className='w-10 h-9 rounded-full' alt='' />
                            </Link>
                            </div>
                            <div className='p-2  flex  md:items-center'>
