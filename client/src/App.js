@@ -67,7 +67,9 @@ function App() {
                      <Route path='/signin' element={<SigninPage />}></Route>
                      <Route element={<ProtectedRoutes />}>
                         <Route path='/home' element={<HomePage />}></Route>
-                        <Route path='/profile/:userName' element={<UserProfilePage />}></Route>
+                        <Route path='/profile'>
+                           <Route path=":userName"  element={<UserProfilePage />}/>
+                        </Route>
                         <Route path='/myprofile' element={<UserProfilePage />}></Route>
                         <Route path='/message' element={<ChatPage />}></Route>
                         <Route path='/notifications' element={<NotificationPage />}></Route>
