@@ -135,7 +135,6 @@ const verifyOtp = async (req, res) => {
    try {
     let validUser = await userVerification.findOne({user:req.body.email})
     let validOtp = await bcrypt.compare(req.body.otp,validUser.otp)
-
     if(validOtp){
       await validUser.updateOne({otp:'used'})
         res.status(200).json({message:'otp verified',auth:true})
@@ -476,8 +475,10 @@ const updateNewPassword =async(req,res)=>{
       var decoded = jwt_decode(token);
       console.log(decoded);
       const user = await userVerification.findOne({user:decoded.email})
+      console.log(user);
        if(user){
           const validUrl = await bcrypt.compare(decoded.OTP,user.otp)
+          console.log(validUrl);
          if(validUrl){
          const password =await bcrypt.hash(pass,10)
          await User.updateOne({email:decoded.email},{$set:{password:password}})

@@ -40,7 +40,7 @@ function AdminSideBar() {
         { name: "Post Management", link: "/admin/post_management", icon: MdPhotoCameraBack },
         { name: "Job Management", link: "/admin/job_management", icon: MdOutlineWorkOutline },
 
-        { name: "Logout", link: "/admin_login", icon: HiOutlineLogout, margin: true },
+        { name: "Logout", icon: HiOutlineLogout, margin: true },
       ];
       const [open, setOpen] = useState(true);
 
