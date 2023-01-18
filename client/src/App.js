@@ -59,17 +59,15 @@ function App() {
                }
             >
                <Provider store={store}>
-               <Routes>
-                  <Route path='/' exact element={<LandingPage />}></Route>
-                  <Route path='/create_account' element={<SignupPage />}></Route>
-                  <Route path='/forgotPassword' element={<ForgotPassword />}></Route>
-                  <Route path='/changePass/:email/:otp' element={<ResetPassword />}></Route>
+                  <Routes>
+                     <Route path='/' exact element={<LandingPage />}></Route>
+                     <Route path='/create_account' element={<SignupPage />}></Route>
+                     <Route path='/forgotPassword' element={<ForgotPassword />}></Route>
+                     <Route path='/changePass/:email/:otp' element={<ResetPassword />}></Route>
                      <Route path='/signin' element={<SigninPage />}></Route>
                      <Route element={<ProtectedRoutes />}>
                         <Route path='/home' element={<HomePage />}></Route>
-                        <Route path='/profile'>
-                           <Route path=":userName"  element={<UserProfilePage />}/>
-                        </Route>
+                        <Route path='/:userName' element={<UserProfilePage />} />
                         <Route path='/myprofile' element={<UserProfilePage />}></Route>
                         <Route path='/message' element={<ChatPage />}></Route>
                         <Route path='/notifications' element={<NotificationPage />}></Route>
@@ -77,21 +75,20 @@ function App() {
                         <Route path='/editProfile' element={<EditProfilePage />}></Route>
                      </Route>
 
-               {/* ADMIN */}
+                     {/* ADMIN */}
 
-                  <Route path='/admin_login' element={<AdminLoginPage />}></Route>
-                  <Route path='/admin' element={<AdminStructure />}>
-                     <Route path='admin_panel' element={<AdminDashboard />}></Route>
-                     <Route path='user_management' element={<UserManagement />}></Route>
-                     <Route path='post_management' element={<PostManagement />}></Route>
-                     <Route path='job_management' element={<JobManagement />}></Route>
-                  </Route>
+                     <Route path='/admin_login' element={<AdminLoginPage />}></Route>
+                     <Route path='/admin' element={<AdminStructure />}>
+                        <Route path='admin_panel' element={<AdminDashboard />}></Route>
+                        <Route path='user_management' element={<UserManagement />}></Route>
+                        <Route path='post_management' element={<PostManagement />}></Route>
+                        <Route path='job_management' element={<JobManagement />}></Route>
+                     </Route>
 
-                  <Route path="*" element={<ErrorPage/>}/>
-               </Routes>
+                     <Route path='*' element={<ErrorPage />} />
+                  </Routes>
                </Provider>
             </Suspense>
-
          </Router>
       </div>
    )

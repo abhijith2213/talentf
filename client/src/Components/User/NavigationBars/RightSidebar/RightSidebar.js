@@ -61,7 +61,7 @@ const handleUnFollow = (Id)=>{
           if(user._id != userId ){
               return   (           
                 <div className='flex justify-between items-center mb-5 gap-11' key={index}>
-                  <Link to={`/profile/${user.userName}`}>
+                  <Link to={`/${user.userName}`}>
                    <div className='flex'>
                       <img className='rounded-full w-12 h-12 ' src={ PF+user.profilePic } alt='pic' />
                       <div className='flex flex-col justify-center items-center ml-3'>

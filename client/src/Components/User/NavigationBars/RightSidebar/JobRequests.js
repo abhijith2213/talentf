@@ -107,7 +107,7 @@ const userId = userData?._id
             return(            
             <div className="max-h-32 overflow-y-auto no-scrollbar">
             <div className='flex justify-between items-center gap-3 m-2 '>
-            <Link to={`/profile/${user?.userName}`}>
+            <Link to={`/${user?.userName}`}>
                <div className='flex items-center'>
                   <img className='rounded-full w-10 h-10 ' src={PF+user?.profilePic} alt='pic' />
                   <div className='flex flex-col justify-center ml-3'>
