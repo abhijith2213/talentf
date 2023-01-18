@@ -96,7 +96,7 @@ const otpGenerate =async(email,res,link)=>{
                from: process.env.NODEMAILER, // sender address
                to: email, // list of receivers
                subject: "TalentF Password Reset Link", // Subject line
-               text: `Hello User Your link to reset your password is  https://talentf.tk/forgotPassword/${token} `, // plain text body
+               text: `Hello User Your link to reset your password is  https://talentf.tk/changePass/${token} `, // plain text body
                })
             }else{
             // send mail with defined transport object
