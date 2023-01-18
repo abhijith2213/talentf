@@ -23,9 +23,9 @@ export const findWorksToMe = (userId) => userInstance.get(`/works/assigneWorks/m
 
 export const reportJobPost = (reason,postId,userId) => adminInstance.put(`/works/reportWork/${postId}`,{reason:reason,userId:userId})
 
-export const fetchReportedJobss = ()=> adminInstance.get(`/admin/reportedWorks`)
+export const fetchReportedJobss = ()=> adminInstance.get(`/reportedWorks`)
 
 
-export const fetchReportedJobDetails = (jobId)=> adminInstance.get(`/admin/reportedJobs/details/${jobId}`)
+export const fetchReportedJobDetails = (jobId)=> adminInstance.get(`/reportedJobs/details/${jobId}`)
 
-export const blockUserJob = (jobId) => adminInstance.put(`/admin/jobs/block/${jobId}`)
+export const blockUserJob = (jobId) => adminInstance.put(`/jobs/block/${jobId}`)

@@ -36,7 +36,6 @@ function AdminSideBar() {
 
 
     const menus = [
-        { name: "dashboard", link: "/admin/admin_panel", icon: MdOutlineDashboard },
         { name: "User Management", link: "/admin/user_management", icon: AiOutlineUser },
         { name: "Post Management", link: "/admin/post_management", icon: MdPhotoCameraBack },
         { name: "Job Management", link: "/admin/job_management", icon: MdOutlineWorkOutline },

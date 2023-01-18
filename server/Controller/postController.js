@@ -174,7 +174,7 @@ const reportPost=async(req,res)=>{
 const getReportedPosts = async (req,res)=>{
 
     try {
-        const posts =await Post.find()
+        const posts =await Post.find().populate('userId','userName')
       const result =  posts.filter((post)=>{
             if(post?.reports?.length != 0)
             return(post)

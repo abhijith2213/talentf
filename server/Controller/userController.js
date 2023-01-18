@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
-
+const jwt_decode = require( "jwt-decode")
 const User = require("../Models/userSchema")
 const NotificationModel = require("../Models/notificationSchema")
 const userVerification = require("../Models/userVerificationSchema")
@@ -90,12 +90,13 @@ const otpGenerate =async(email,res,link)=>{
       }
          let info
          if(link){
+            const token = jwt.sign({ email,OTP }, process.env.JWT_SECRET, { expiresIn: 300000 })
               // send mail with defined transport object
                info = await transporter.sendMail({
                from: process.env.NODEMAILER, // sender address
                to: email, // list of receivers
                subject: "TalentF Password Reset Link", // Subject line
-               text: `Hello User Your link to reset your password is  https://talentf.tk/forgotPassword/${email}/${OTP} `, // plain text body
+               text: `Hello User Your link to reset your password is  http://localhost:3000/forgotPassword/${token} `, // plain text body
                })
             }else{
             // send mail with defined transport object
@@ -162,7 +163,7 @@ const postSignIn = async (req, res) => {
                const id = user._id
                const { phone, email, password, followers, following, profilePic, ...details } = user._doc
 
-               const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 300000 })
+               const token = jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 30000000 })
                res.status(200).json({ userToken: token, details, profilePic: profilePic, auth: true })
             } else {
                res.status(409).json({ message: "Your account is blocked" })
@@ -469,15 +470,16 @@ const forgotPassLinkSend =async (req,res)=>{
 /* --------------------------- UPDATE NEW PASSWORD -------------------------- */
 
 const updateNewPassword =async(req,res)=>{
-   const {email,otp,pass} = req.body
+   const {token,pass} = req.body
    try {     
-      const user = await userVerification.findOne({user:email})
+      var decoded = jwt_decode(token);
+      const user = await userVerification.findOne({user:decoded.email})
        if(user){
-          const validUrl = await bcrypt.compare(otp,user.otp)
+          const validUrl = await bcrypt.compare(decoded.OTP,user.otp)
          if(validUrl){
          const password =await bcrypt.hash(pass,10)
-         await User.updateOne({email:email},{$set:{password:password}})
-        await user.updateOne({otp:'used'})
+         await User.updateOne({email:decoded.email},{$set:{password:password}})
+         await user.updateOne({otp:'used'})
          res.status(200).json({message:'Password updated Successfully'})
          }else{
           res.status(403).json({message:'Authentication Failed'})

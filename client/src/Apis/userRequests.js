@@ -49,4 +49,4 @@ export const fetchNoCounts = (userId) => userInstance.get(`/user/notifications/g
 export const forgotPass = (email)=>axios.put(`/forgotPassword/${email}`)
 
 
-export const updateNewPass =(pass,email,otp)=>axios.put(`/resetPassword`,{pass,email,otp})
+export const updateNewPass =(pass,token)=>axios.put(`/resetPassword`,{pass,token})

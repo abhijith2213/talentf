@@ -8,6 +8,7 @@ ObjectId = Schema.ObjectId;
 const postSchema = mongoose.Schema({
     userId:{
         type: ObjectId,
+        ref:'users',
         required:[true,'User Id not found']
     },
     description:{

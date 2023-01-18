@@ -10,7 +10,7 @@ function AdminStructure() {
     if(!token){
         navigate('/admin_login')
     }else{
-      navigate('/admin/admin_panel')
+      navigate('/admin/user_management')
     }
   },[])
 

@@ -10,6 +10,7 @@ import HashLoader from "react-spinners/HashLoader"
 
 // Redux components
 import store from "./Redux/User/Store"
+import AdminStructure from "./Pages/Admin/AdminStructure/AdminStructure"
 
 // PROTECTED ROUTE
 
@@ -21,9 +22,7 @@ const ErrorPage = lazy(() => import("./Pages/ErrorPage/ErrorPage"))
 // ADMIN
 
 const AdminLoginPage = lazy(() => import("./Pages/Admin/AdminLogin/AdminLoginPage"))
-const AdminDashboard = lazy(() => import("./Components/Admin/AdminDashboard/AdminDashboard"))
 const UserManagement = lazy(() => import("./Components/Admin/UserManagement/UserManagement"))
-const AdminStructure = lazy(() => import("./Pages/Admin/AdminStructure/AdminStructure"))
 const PostManagement = lazy(() => import("./Components/Admin/PostManagement/PostManagement"))
 const JobManagement = lazy(() => import("./Components/Admin/Job Management/JobManagement"))
 
@@ -63,7 +62,7 @@ function App() {
                      <Route path='/' exact element={<LandingPage />}></Route>
                      <Route path='/create_account' element={<SignupPage />}></Route>
                      <Route path='/forgotPassword' element={<ForgotPassword />}></Route>
-                     <Route path='/changePass/:email/:otp' element={<ResetPassword />}></Route>
+                     <Route path='/changePass/:token' element={<ResetPassword />}></Route>
                      <Route path='/signin' element={<SigninPage />}></Route>
                      <Route element={<ProtectedRoutes />}>
                         <Route path='/home' element={<HomePage />}></Route>
@@ -79,7 +78,6 @@ function App() {
 
                      <Route path='/admin_login' element={<AdminLoginPage />}></Route>
                      <Route path='/admin' element={<AdminStructure />}>
-                        <Route path='admin_panel' element={<AdminDashboard />}></Route>
                         <Route path='user_management' element={<UserManagement />}></Route>
                         <Route path='post_management' element={<PostManagement />}></Route>
                         <Route path='job_management' element={<JobManagement />}></Route>

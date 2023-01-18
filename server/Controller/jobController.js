@@ -159,7 +159,7 @@ const reportJob = async (req,res)=>{
 
 const fetchReportedJobs = async (req,res)=>{
     try {
-        const posts =await Job.find({reports:{$exists:true,$ne:[]}}).populate('userId','userName')
+        const posts =await Job.find().populate('userId','userName')
         res.status(200).json(posts) 
     } catch (error) {
         res.status(500).json(error)

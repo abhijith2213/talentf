@@ -87,6 +87,7 @@ function JobManagement() {
              </thead>
              <tbody>
                     {jobs?.map((post)=>{
+                           let date = moment(post?.createdAt).format("YYYY-MM-DD")
                 return(
 
                       <tr  className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
@@ -97,7 +98,7 @@ function JobManagement() {
                            {post?._id}
                          </th>
                          <td className='py-4 px-6'>{post?.userId?.userName}</td>
-                         <td className='py-4 px-6'>{post.createdAt}</td>
+                         <td className='py-4 px-6'>{date}</td>
                          <td className='py-4 px-6'>{post?.status}</td>
                          <td className='py-4 px-6'>{post?.reports?.length}</td>
                          <td className='py-4 px-6'>

@@ -16,7 +16,7 @@ function ResetPassword() {
     const [newCPass, setCNewPass] = useState('')
     const [error, setError] = useState('')
 
-    const {email,otp}  = useParams()
+    const {token} = useParams()
 
     const handleReset =async(e)=>{
         e.preventDefault()
@@ -26,7 +26,7 @@ function ResetPassword() {
         if(newPass === newCPass){
             setError('')
             try {
-                const {data} = await updateNewPass(newPass,email,otp)
+                const {data} = await updateNewPass(newPass,token)
                 toast.success(data.message)
                 setTimeout(() => {     
                   navigate('/signin')
