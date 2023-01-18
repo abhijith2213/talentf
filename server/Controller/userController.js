@@ -471,8 +471,10 @@ const forgotPassLinkSend =async (req,res)=>{
 
 const updateNewPassword =async(req,res)=>{
    const {token,pass} = req.body
+   console.log(req.body);
    try {     
       var decoded = jwt_decode(token);
+      console.log(decoded);
       const user = await userVerification.findOne({user:decoded.email})
        if(user){
           const validUrl = await bcrypt.compare(decoded.OTP,user.otp)
