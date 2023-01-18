@@ -1,6 +1,6 @@
 import "./App.css"
 import { lazy, Suspense } from "react"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { HashRouter as Router, Route, Routes } from "react-router-dom"
 import { Provider } from "react-redux"
 
 import LoadingOverlay from "react-loading-overlay-ts"
@@ -10,10 +10,10 @@ import HashLoader from "react-spinners/HashLoader"
 
 // Redux components
 import store from "./Redux/User/Store"
+
 import AdminStructure from "./Pages/Admin/AdminStructure/AdminStructure"
 
 // PROTECTED ROUTE
-
 import ProtectedRoutes from "./Utils/ProtectedRoutes"
 
 // ERROR PAGE
